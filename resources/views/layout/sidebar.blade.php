@@ -1,100 +1,37 @@
 @extends('layout.app')
-@section('css')
-    <style>
-        .sidebar {
-            background-color: #005b40;
-            min-width: 15px;
-            max-width: 20rem;
-            color: #ffffff;
-        }
-
-        .sidebar-img {
-            width: 70px;
-        }
-
-        .sidebar-h {
-            max-height: 100vh;
-        }
-
-        .side-link {
-            font-size: 2rem !important;
-            text-decoration: none !important;
-            color: #ffffff !important;
-            border: none !important;
-            background-color: #005b40 !important;
-            outline: none !important;
-            border-radius: 0 !important;
-        }
-
-        .side-link:hover {
-            color: #005b40 !important;
-            background-color: #eef1f4 !important;
-            border: none !important;
-            outline: none !important;
-        }
-
-        .side-link:focus {
-            outline: none !important;
-            border: none !important;
-        }
-
-        .accordion-item {
-            outline: none !important;
-            border: none !important;
-        }
-
-        .accordion-button:focus {
-            box-shadow: none !important;
-        }
-
-        .accordion {
-            border: none !important;
-            background: none !important;
-            color: none !important;
-        }
-
-        .side-link:active {
-            outline: none !important;
-            border: none !important;
-        }
-
-        .activated {
-            color: #005b40 !important;
-            background-color: #eef1f4 !important;
-            border: none !important;
-        }
-
-        .avatar {
-            width: 30px;
-        }
-
-        hr {
-            color: #37a87f;
-        }
-
-        .ac {
-            background-color: #37a87f !important;
-        }
-
-        .font{
-            font-size: 30px;
-        }
-
-        .remove-design:focus{
-            outline: none !important;
-            border: none !important;
-        }
-    </style>
-@endsection
 @section('content')
-    <div class="d-flex h-100 sidebar-h">
+    @if (auth()->user()->role->role_name == 'Administrator')
+        @include('layout.admin')
+    @endif
+    <nav class="navbar navbar-light navbar-expand-md" style="background-color: #37a87f;">
+        <div class="container-fluid"><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span
+                    class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <p class="navbar-text text-white ms-5" style="margin-bottom: 0;">Office of the Director for Quality
+                    Assurance (Administrator)</p>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item me-2"><a class="nav-link active" href="#"><i
+                                class="fas fa-comment-alt text-warning" title="10"></i><span class="text-warning"
+                                style="font-size: 10px;margin: 0px;margin-top: 0px;position: absolute;">10</span></a></li>
+                    <li class="nav-item me-2"><a class="nav-link" href="#"><i class="fas fa-bell text-white"></i></a>
+                    </li>
+                    <li class="nav-item me-2"><a class="nav-link" href="#"><i class="fas fa-user text-white"></i></a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-power-off text-white"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    @yield('page')
+    {{-- <div class="d-flex h-100 sidebar-h">
         <div class="sidebar">
             @if (auth()->user()->role->role_name == 'Administrator')
                 @include('layout.admin')
             @endif
         </div>
         <div class="overflow-auto w-100">
-            <nav class="navbar navbar-expand-lg border-bottom border-dark ac" style="max-width:100%">
+            <nav class="navbar navbar-expand-lg border-bottom border-dark ac" style="max-width:100%;height:4rem">
                 <div class="container-fluid">
                     <span class="navbar-brand text-white">Office of the Director for Quality Assurance
                         ({{ auth()->user()->role->role_name }})</span>
@@ -115,17 +52,17 @@
                                         <span class="mdi mdi-account rounded-circle avatar"></span>
                                     @endif
                                 </button>
-                                {{-- <ul class="dropdown-menu">
+                                <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="#">Action</a></li>
                                     <li><a class="dropdown-item" href="#">Another action</a></li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
                                     <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </ul> --}}
+                                </ul>
                             </li>
-                            <li class="nav-item">
-                                <a href="{{ route('logout') }}" class="nav-link"><span class="mdi mdi-power font text-white"></span></a>
+                            <li class="nav-item pt-1">
+                                <a href="{{ route('logout') }}" class="nav-link"><span class="mdi mdi-power text-white" style="font-size: 1.5rem;"></span></a>
                             </li>
                         </ul>
                     </div>
@@ -133,6 +70,70 @@
             </nav>
             @yield('page')
         </div>
-    </div>
+    </div> --}}
     @vite(['resources/js/sidebar.js'])
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            (function($) {
+            let win = $(window);
+            let w = win.width();
+
+            let body = $('body');
+            let btn = $('#sidebarToggle');
+            let sidebar = $('.sidebar');
+
+            // Collapse on load
+
+            if (win.width() < 992) {
+                sidebar.addClass('collapsed');
+            }
+
+            sidebar.removeClass('mobile-hid');
+
+            // Events
+
+            btn.click(toggleSidebar);
+
+            win.resize(function() {
+
+                if (w == win.width()) {
+                    return;
+                }
+
+                w = win.width();
+
+                if (w < 992 && !sidebar.hasClass('collapsed')) {
+                    toggleSidebar();
+                } else if (w > 992 && sidebar.hasClass('collapsed')) {
+                    toggleSidebar();
+                }
+            });
+
+            function toggleSidebar() {
+
+                if (win.width() < 992 || !sidebar.hasClass('collapsed')) {
+                    body.animate({
+                        'padding-left': '0'
+                    }, 100);
+                } else if (win.width() > 992 && sidebar.hasClass('collapsed')) {
+                    body.animate({
+                        'padding-left': '14rem'
+                    }, 100);
+                }
+
+                if (!sidebar.hasClass('collapsed')) {
+                    sidebar.fadeOut(100, function() {
+                        btn.hide();
+                        sidebar.addClass('collapsed');
+                        btn.fadeIn(100);
+                    });
+                } else {
+                    sidebar.removeClass('collapsed');
+                    sidebar.fadeIn(100);
+                }
+
+            }
+            })(jQuery) 
+        });
+    </script>
 @endsection

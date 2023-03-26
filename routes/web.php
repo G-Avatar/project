@@ -3,6 +3,9 @@
 use App\Http\Controllers\Administrator\AreaController;
 use App\Http\Controllers\Administrator\DashboardController;
 use App\Http\Controllers\Administrator\InstituteController;
+use App\Http\Controllers\Administrator\OfficeController;
+use App\Http\Controllers\Administrator\ProcessController;
+use App\Http\Controllers\Administrator\ProgramController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +34,9 @@ Route::middleware(['auth'])->group(function(){
         Route::get('/dashboard',[DashboardController::class,'adminDashboardPage'])->name('admin-dashboard-page');
         Route::get('/area',[AreaController::class,'adminAreaPage'])->name('admin-area-page');
         Route::post('/add-institute',[InstituteController::class,'addInstitute'])->name('add-institute');
+        Route::post('/add-program',[ProgramController::class,'addProgram'])->name('add-program');
+        Route::post('/add-process',[ProcessController::class,'addProcess'])->name('add-process');
+        Route::post('/add-office',[OfficeController::class,'addOffice'])->name('add-office');
     });
 
     Route::get('logout',[AuthController::class,'lg'])->name('logout');

@@ -8,6 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <link rel="shortcut icon" href="/storage/assets/dnsc_logo.png" type="image/x-icon">
+        <link rel="stylesheet" href="{{ asset('storage/assets/fonts/fontawesome-all.min.css') }}">
+        @vite(['resources/js/jq.js'])
         @yield('css')
         @yield('css-page')
     </head>
