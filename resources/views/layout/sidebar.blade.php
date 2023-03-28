@@ -2,13 +2,15 @@
 @section('content')
     @if (auth()->user()->role->role_name == 'Administrator')
         @include('layout.admin')
+    @elseif (auth()->user()->role->role_name == 'Document Control Custodian')
+        @include('layout.dcc')
     @endif
     <nav class="navbar navbar-light navbar-expand-md" style="background-color: #37a87f;">
         <div class="container-fluid"><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span
                     class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <p class="navbar-text text-white ms-5" style="margin-bottom: 0;">Office of the Director for Quality
-                    Assurance (Administrator)</p>
+                    Assurance ({{ auth()->user()->role->role_name }})</p>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item me-2"><a class="nav-link active" href="#"><i
                                 class="fas fa-comment-alt text-warning" title="10"></i><span class="text-warning"
@@ -17,7 +19,7 @@
                     </li>
                     <li class="nav-item me-2"><a class="nav-link" href="#"><i class="fas fa-user text-white"></i></a>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-power-off text-white"></i></a>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('logout') }}"><i class="fas fa-power-off text-white"></i></a>
                     </li>
                 </ul>
             </div>

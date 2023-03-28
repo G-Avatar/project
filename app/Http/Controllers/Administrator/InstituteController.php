@@ -23,4 +23,18 @@ class InstituteController extends Controller
 
         return redirect()->route('admin-area-page')->with('success', 'Institute added successfully');
     }
+
+    public function editInstitute(Request $request)
+    {
+        $validatedData = $request->validate([
+            'institute_id'=>'required|exists:institutes,id',
+            'institute_name' => 'required|unique:institutes,institute_name,'.$request->institute_id,
+            'institute_description' => 'required|unique:institutes,institute_description,'.$request->institute_id,
+        ]);
+
+        Institute::where('id',$request->institute_id)
+        ->update($request->except('_token','_method','institute_id'));
+
+        return redirect()->route('admin-area-page')->with('success', 'Institute updated successfully');
+    }
 }

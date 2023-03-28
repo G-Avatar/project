@@ -39,14 +39,14 @@
                     <button type="button" class="btn btn-success" data-bs-toggle="dropdown" aria-expanded="false"><span
                             class="mdi mdi-plus"></span> Add</button>
                     <ul class="dropdown-menu">
-                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#office"><span class="mdi mdi-home-account"></span>
+                        <li><button class="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#office"><span class="mdi mdi-home-account text-success"></span>
                                 Office</button></li>
-                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal"><span
-                                    class="mdi mdi-domain"></span>
+                        <li><button class="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#exampleModal"><span
+                                    class="mdi mdi-domain text-success"></span>
                                 Institute</button></li>
-                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#program"><span class="mdi mdi-office-building"></span>
+                        <li><button class="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#program"><span class="mdi mdi-office-building text-success"></span>
                                 Program</button></li>
-                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#process"><span class="mdi mdi-folder-table"></span>
+                        <li><button class="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#process"><span class="mdi mdi-folder-table text-success"></span>
                                 Process</button></li>
                     </ul>
                 </div>
@@ -56,7 +56,7 @@
     </div>
 
     {{-- Transaction Messages --}}
-    <div class="container d-none">
+    <div class="container">
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show">
                 {{ session('success') }}
@@ -123,6 +123,37 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="editInstitute" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Institute</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{ route('edit-institute') }}">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="institute_id" id="institute_id">
+                        <div class="mb-3">
+                            <label for="institute" class="form-label">Institute</label>
+                            <input type="text" class="form-control" name="institute_name" placeholder="Enter institute name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="institute" class="form-label">Institute Full name</label>
+                            <input type="text" class="form-control" name="institute_description" placeholder="Enter full name" required>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     {{-- Program --}}
     <div class="modal fade" id="program" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -162,6 +193,37 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="editProgram" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Program</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{ route('edit-program') }}">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="program_id" id="program_id">
+                        <div class="mb-3">
+                            <label for="program" class="form-label">Program</label>
+                            <input type="text" class="form-control" name="program_name" placeholder="Enter program name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="program" class="form-label">Program Full name</label>
+                            <input type="text" class="form-control" name="program_description" placeholder="Enter full name" required>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     {{-- Process --}}
     <div class="modal fade" id="process" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -184,7 +246,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="Program" class="form-label">Program</label>
-                            <select name="program_id" id="program_id" class="form-control">
+                            <select name="program_id" id="programs_id" class="form-control">
                                 <option value="" disabled selected>Select a Program</option>
                             </select>
                         </div>
@@ -207,6 +269,38 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="editProcess" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Process</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{ route('edit-process') }}">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="process_id" id="process_id">
+                        <div class="mb-3">
+                            <label for="process" class="form-label">Process</label>
+                            <input type="text" class="form-control" name="process_name" placeholder="Enter process name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="process" class="form-label">Process Full name</label>
+                            <input type="text" class="form-control" name="process_description" placeholder="Enter full name" required>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- Office --}}
     <div class="modal fade" id="office" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -223,6 +317,37 @@
                         </div>
                         <div class="mb-3">
                             <label for="institute" class="form-label">Office Full name</label>
+                            <input type="text" class="form-control" name="office_description" placeholder="Enter full name" required>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="editOffice" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Office</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{ route('edit-office') }}">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="office_id" id="office_id">
+                        <div class="mb-3">
+                            <label for="office" class="form-label">Office</label>
+                            <input type="text" class="form-control" name="office_name" placeholder="Enter office name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="office" class="form-label">Office Full name</label>
                             <input type="text" class="form-control" name="office_description" placeholder="Enter full name" required>
                         </div>
                         <div class="text-center">
@@ -260,13 +385,16 @@
                             'value': institute.institutes[key].id
                         });
                         var ul = $('<ul>', {
-                            'class': 'dropdown-menu'
+                            'class': 'dropdown-menu edit'
                         });
                         var li = $('<li>');
                         var menu = $('<button>', {
-                            'class': 'dropdown-item',
+                            'class': 'dropdown-item editInstitute',
                             'text':'Edit',
-                            'type':'button'
+                            'type':'button',
+                            'data-bs-toggle':'modal',
+                            'data-bs-target':'#editInstitute',
+                            'value': institute.institutes[key].id
                         });                        
                         var newCol = $('<div>', {
                             'class': 'col-4'
@@ -289,13 +417,16 @@
                             'value': institute.offices[key].id,
                         });
                         var ul = $('<ul>', {
-                            'class': 'dropdown-menu'
+                            'class': 'dropdown-menu edit'
                         });
                         var li = $('<li>');
                         var menu = $('<button>', {
-                            'class': 'dropdown-item',
+                            'class': 'dropdown-item editOffice',
                             'text':'Edit',
-                            'type':'button'
+                            'type':'button',
+                            'data-bs-toggle':'modal',
+                            'data-bs-target':'#editOffice',
+                            'value': institute.offices[key].id
                         });                        
                         var newCol = $('<div>', {
                             'class': 'col-4'
@@ -325,13 +456,16 @@
                     });
                     
                     var ul = $('<ul>', {
-                        'class': 'dropdown-menu'
+                        'class': 'dropdown-menu edit'
                     });
                     var li = $('<li>');
                     var menu = $('<button>', {
-                        'class': 'dropdown-item',
+                        'class': 'dropdown-item editProgram',
                         'text':'Edit',
-                        'type':'button'
+                        'type':'button',
+                        'data-bs-toggle':'modal',
+                        'data-bs-target':'#editProgram',
+                        'value': program.programs[key].id,
                     });                        
                     var newCol = $('<div>', {
                         'class': 'col-4'
@@ -352,7 +486,6 @@
                 var program = institute.institutes.find(s => s.id === p);
                 program = program.programs.find(s => s.id === parseInt($(this).val()));
                 $('.process-buttons').html('<h3>Process</h3>');
-                console.log(program);
                 for (const key in program.processes) {
                     var newButton = $('<button>', {
                         'class': 'btn btn-design process w-100 editable',
@@ -360,13 +493,16 @@
                         'value': program.processes[key].id,
                     });
                     var ul = $('<ul>', {
-                        'class': 'dropdown-menu'
+                        'class': 'dropdown-menu edit'
                     });
                     var li = $('<li>');
                     var menu = $('<button>', {
-                        'class': 'dropdown-item',
+                        'class': 'dropdown-item editProcess',
                         'text':'Edit',
-                        'type':'button'
+                        'type':'button',
+                        'data-bs-toggle':'modal',
+                        'data-bs-target':'#editProcess',
+                        'value': program.processes[key].id,
                     });                        
                     var newCol = $('<div>', {
                         'class': 'col-4'
@@ -383,25 +519,44 @@
                 const institute = data[1];
                 const i = institute.institutes.find(s => s.id === parseInt($(this).val()));
                 const program = i.programs;
-                console.log(program);
                 var newOption = $('<option>',{
                     'text':'Select a Program',
                     'value':'',
                     'disabled':'true',
                     'selected':'true'
                 });
-                $('#program_id').append(newOption);
+                $('#programs_id').append(newOption);
                 for (const key in program) {
                     var newOption = $('<option>',{
                         'text':program[key].program_name+' - '+program[key].program_description,
                         'value':program[key].id
                     });
-                    $('#program_id').append(newOption);
+                    $('#programs_id').append(newOption);
                 }
             });
 
+            $(document).on('click','.editInstitute', function () {
+                let institute_id = $(this).val();
+                $('#institute_id').val(institute_id);
+            });
+
+            $(document).on('click','.editOffice', function () {
+                let office_id = $(this).val();
+                $('#office_id').val(office_id);
+            });
+
+            $(document).on('click','.editProgram', function () {
+                let program_id = $(this).val();
+                $('#program_id').val(program_id);
+            });
+
+            $(document).on('click','.editProcess', function () {
+                let process_id = $(this).val();
+                $('#process_id').val(process_id);
+            });
+
             $(document).on('click', function () {
-                $('.dropdown-menu').removeClass('show');
+                $('.edit').removeClass('show');
             });
 
 

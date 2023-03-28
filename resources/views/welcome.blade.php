@@ -19,6 +19,7 @@
 @section('content')
     <div class="container h-100">
         <div class="row h-100">
+            
             <div class="col-lg-6">
                 <div class="container h-100 d-flex align-items-center">
                     <div class="h-fit text-center">
@@ -50,7 +51,7 @@
                             </div>
                             <hr>
                             <div class="mt-3 text-center">
-                                <a href="#" class="link">Register</a>
+                                <a href="{{ route('users.create') }}" class="link">Register</a>
                             </div>
                         </div>
                     </form>
@@ -58,6 +59,17 @@
             </div>
         </div>
     </div>
+    {{-- Transaction Messages --}}
+    @if (session('success'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title:'{{ session('success') }}',
+                icon:'success'
+            });
+        });   
+    </script>
+    @endif
 @endsection
 @section('js')
 @vite(['resources/js/login.js'])

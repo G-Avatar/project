@@ -6,6 +6,14 @@
         }
     }
 
+    .drop-menu .active{
+        background-color: #ffffff !important;
+    }
+
+    .drop-menu .active span{
+        color: #005b40 !important;
+    }
+
     /* Sidebar Styles */
 
     .sidebar {
@@ -184,57 +192,18 @@
   <li class="nav-item logo-holder">
       <div class="text-center text-white logo py-4 mx-4"><img class="img-fluid" src="{{ asset('storage/assets/dnsc-logo.png') }}" width="55" height="50"><a id="title" class="text-decoration-none" href="#"><strong>DNSC</strong></a><a class="float-end text-white" id="sidebarToggleHolder" href="#"><i class="fas fa-bars" id="sidebarToggle"></i></a></div>
   </li>
-  <li class="nav-item"><a class="nav-link text-start py-1 px-0" href="#"><i class="fas fa-tachometer-alt mx-3"></i><span class="text-nowrap mx-2">Dashboard</span></a></li>
+  <li class="nav-item"><a class="nav-link text-start py-1 px-0 {{ request()->routeIs('admin-dashboard-page') ? 'active' : '' }}" href="{{ route('admin-dashboard-page') }}"><i class="fas fa-tachometer-alt mx-3"></i><span class="text-nowrap mx-2">Dashboard</span></a></li>
   <li class="nav-item"><a class="nav-link text-start py-1 px-0 {{ request()->routeIs('admin-area-page') ? 'active' : '' }}" href="{{ route('admin-area-page') }}"><i class="fas fa-building mx-3"></i><span class="text-nowrap mx-2">Areas</span></a></li>
-  <li class="nav-item dropdown"><a class="dropdown-toggle nav-link text-start py-1 px-0 position-relative" aria-expanded="true" data-bs-toggle="dropdown" href="#"><i class="fas fa-user-alt mx-3"></i><span class="text-nowrap mx-2">Users</span><i class="fas fa-caret-down float-none float-lg-end me-3"></i></a>
-      <div class="dropdown-menu border-0 animated fadeIn" data-bs-popper="none"><a class="dropdown-item" href="#"><span>Pending</span></a><a class="dropdown-item" href="#"><span>Rejected</span></a><a class="dropdown-item" href="#"><span>User List</span></a></div>
+  <li class="nav-item dropdown {{ request()->routeIs('admin-user-list') || request()->routeIs('admin-pending-users-page') || request()->routeIs('admin-rejected-users-page') || request()->routeIs('list-dcc-po') ? 'show' : '' }}">
+    <a data-bs-auto-close="false" class="dropdown-toggle nav-link text-start py-1 px-0 position-relative {{ request()->routeIs('admin-user-list') || request()->routeIs('admin-pending-users-page') || request()->routeIs('admin-rejected-users-page') || request()->routeIs('list-dcc-po') || request()->routeIs('admin-role-page') ? 'active' : '' }}" aria-expanded="true" data-bs-toggle="dropdown" href="#"><i class="fas fa-user-alt mx-3"></i><span class="text-nowrap mx-2">Users</span><i class="fas fa-caret-down float-none float-lg-end me-3"></i></a>
+        <div class="dropdown-menu drop-menu border-0 animated fadeIn {{ request()->routeIs('admin-user-list') || request()->routeIs('admin-pending-users-page') || request()->routeIs('admin-rejected-users-page') || request()->routeIs('list-dcc-po') || request()->routeIs('admin-role-page') ? 'show' : '' }}" data-bs-popper="none">
+            <a class="dropdown-item {{ request()->routeIs('admin-pending-users-page') ? 'active' : '' }}" href="{{ route('admin-pending-users-page') }}"><span>Pending</span></a>
+            <a class="dropdown-item {{ request()->routeIs('admin-rejected-users-page') ? 'active' : '' }}" href="{{ route('admin-rejected-users-page') }}"><span>Rejected</span></a>
+            <a class="dropdown-item {{ request()->routeIs('list-dcc-po') ? 'active' : '' }}" href="{{ route('list-dcc-po') }}"><span>Assign Area</span></a>
+            <a class="dropdown-item {{ request()->routeIs('admin-role-page') || request()->routeIs('admin-user-list') ? 'active' : '' }}" href="{{ route('admin-role-page') }}"><span>User List</span></a>
+        </div>
   </li>
   <li class="nav-item"><a class="nav-link text-start py-1 px-0" href="#"><i class="fas fa-archive mx-3"></i><span class="text-nowrap mx-2">Archive</span></a></li>
   <li class="nav-item"><a class="nav-link text-start py-1 px-0" href="#"><i class="fas fa-chart-bar mx-3"></i><span class="text-nowrap mx-2">Statistics</span></a></li>
 </ul>
 
-{{-- <div class="text-center d-flex justify-content-center border-bottom" style="padding-top:0.5rem;padding-bottom:0.7rem">
-  <img src="/storage/assets/dnsc-logo.png" alt="DNSC logo" class="sidebar-img">
-  <span style="font-size: 1.6rem;" class="ms-2 mt-1">DNSC</span>
-</div>
-
-<div class="row mt-3">
-    <div class="col-12 d-flex mb-1">
-        <a href="{{ route('admin-dashboard-page') }}"
-            class="h-100 w-100 side-link ps-3 pe-3{{ request()->routeIs('admin-dashboard-page') ? ' activated' : '' }}"><span
-                class="mdi mdi-home"></span> Dashboard</a>
-    </div>
-    <div class="col-12 d-flex">
-        <a href="{{ route('admin-area-page') }}" class="h-100 w-100 side-link ps-3 pe-3{{ request()->routeIs('admin-area-page') ? ' activated' : '' }}"><span class="mdi mdi-domain"></span> Area</a>
-    </div>
-    <div class="col-12">
-        <div class="accordion" id="outerAccordion">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="panel1Heading">
-                <button class="accordion-button collapsed out side-link ps-3" style="height: 1rem" type="button" data-bs-toggle="collapse" data-bs-target="#panel1Collapse" aria-expanded="true" aria-controls="panel1Collapse">
-                <span class="mdi mdi-account"> Users</span>
-                </button>
-              </h2>
-              <div id="panel1Collapse" class="accordion-collapse collapse ac" aria-labelledby="panel1Heading" data-bs-parent="#outerAccordion">
-                <div class="accordion-body ac">
-                  <div class="accordion" id="innerAccordion">
-                    <div class="accordion-item rounded-pill ac">
-                      <h2 class="accordion-header rounded-pill" id="panel2Heading">
-                        <button class="accordion-button in-btn side-link rounded-pill" style="height: 1rem" type="button" data-bs-toggle="collapse" data-bs-target="#panel2Collapse" aria-expanded="true" aria-controls="panel2Collapse">
-                          Approval
-                        </button>
-                      </h2>
-                      <div id="panel2Collapse" class="accordion-collapse collapse in-output ac" aria-labelledby="panel2Heading" data-bs-parent="#innerAccordion">
-                        <div class="accordion-body ac rounded-pill d-flex flex-column">
-                          <a href="" class="side-link rounded m-1 text-center">Pending</a>
-                          <a href="" class="side-link rounded m-1 text-center">Rejected</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-    </div>
-</div> --}}

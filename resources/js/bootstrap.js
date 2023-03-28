@@ -6,11 +6,14 @@
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@mdi/font/css/materialdesignicons.min.css';
+import 'sweetalert2/dist/sweetalert2.css';
 
 import axios from 'axios';
 import * as bootstrap from "bootstrap";
+import Swal from 'sweetalert2';
 window.axios = axios;
 window.bootstrap = bootstrap;
+window.Swal = Swal;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,10 +20,21 @@ class AuthController extends Controller
             'password' => ['required']
         ]);
 
+        if (User::where('username',$request->username)->whereNotNull('role_id')->count() == 0) {
+            return back()->withErrors([
+                'username' => 'Your account is not yet approved',
+            ])->onlyInput('username');
+        }
+
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
- 
-            return redirect()->route('admin-dashboard-page');
+            $role = Auth::user()->role->role_name;
+            if ($role == 'Administrator') {
+                return redirect()->route('admin-dashboard-page');
+            }
+            if ($role == 'Document Control Custodian') {# code...
+                return redirect()->route('dcc-dashboard-page');
+            }
         }
  
         return back()->withErrors([

@@ -20,4 +20,18 @@ class ProcessController extends Controller
 
         return redirect()->route('admin-area-page')->with('success', 'Process added successfully');
     }
+
+    public function editProcess(Request $request)
+    {
+        $validatedData = $request->validate([
+            'process_id' => 'required|exists:processes,id',
+            'process_name' => 'required|unique:processes,process_name,'.$request->process_id,
+            'process_description' => 'required|unique:processes,process_description,'.$request->process_id,
+        ]);
+
+        Process::where('id',$request->process_id)
+        ->update($request->except('_token','_method','process_id'));
+
+        return redirect()->route('admin-area-page')->with('success', 'Process updated successfully');
+    }
 }
