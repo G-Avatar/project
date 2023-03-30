@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('directories', function (Blueprint $table) {
+        Schema::create('evidence', function (Blueprint $table) {
             $table->id();
-            $table->string('location');
-            $table->string('filename');
-            $table->string('original_name');
-            $table->softDeletesTz();
+            $table->foreignId('directory_id')->constrained();
             $table->timestamps();
         });
     }
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('directories');
+        Schema::dropIfExists('evidence');
     }
 };
