@@ -5,14 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Evidence extends Model
+class EvidencePermission extends Model
 {
     use HasFactory;
 
     public $fillable = [
-        'directory_id',
-        'user_id',
-        'folder_name',
-        'evidence_id'
+        'evidence_id',
+        'program_id'
     ];
 }

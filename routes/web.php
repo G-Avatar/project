@@ -9,6 +9,7 @@ use App\Http\Controllers\Administrator\ProgramController;
 use App\Http\Controllers\Administrator\RoleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DCC\DCCDashboardController;
+use App\Http\Controllers\DCC\DCCEvidenceController;
 use App\Http\Controllers\DCC\TemplateController;
 use App\Http\Controllers\OfficeUserController;
 use App\Http\Controllers\ProcessUserController;
@@ -67,6 +68,7 @@ Route::middleware(['auth'])->group(function(){
         });
         Route::get('/dashboard',[DCCDashboardController::class,'dashboard'])->name('dcc-dashboard-page');
         Route::get('/template',[TemplateController::class,'index'])->name('dcc-template-page');
+        Route::get('/evidence',[DCCEvidenceController::class,'showEvidence'])->name('dcc-show-evidence');
     });
 
     Route::get('logout',[AuthController::class,'lg'])->name('logout');

@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Directory extends Model
 {
     use HasFactory;
+
+    public $fillable = [
+        'location',
+        'filename',
+        'original_name'
+    ];
 }

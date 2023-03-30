@@ -11,6 +11,7 @@
     },
     "dependencies": {
         "@mdi/font": "^7.1.96",
+        "@yaireo/tagify": "^4.17.7",
         "bootstrap": "^5.2.3",
         "jquery": "^3.6.4",
         "sweetalert2": "^11.7.3"
