@@ -137,7 +137,7 @@ class UserController extends Controller
         ->get();
         return view('Administrator.assign',[
             'data'=>$data,
-            'areas'=>Area::with(['institutes.programs.processes', 'offices'])->get()
+            'areas'=>Area::with(['institutes.programs.processes', 'offices.processes'])->get()
         ]);
     }
 }

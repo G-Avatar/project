@@ -47,4 +47,14 @@ class User extends Authenticatable
         return $this->belongsToMany(Process::class);
     }
 
+    public function office_user()
+    {
+        return $this->belongsToMany(Office::class);
+    }
+
+    public function program_user()
+    {
+        return $this->belongsToMany(Program::class);
+    }
+
 }

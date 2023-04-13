@@ -4,17 +4,33 @@ namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
 use App\Models\Process;
+use App\Rules\NoSameProcessInOffice;
+use App\Rules\NoSameProcessInProgram;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ProcessController extends Controller
 {
     public function addProcess(Request $request)
     {
-        $validatedData = $request->validate([
-            'program_id' => 'required|exists:programs,id',
-            'process_name' => 'required|unique:processes,process_name',
-            'process_description' => 'required|unique:processes,process_description',
+        $listtype = $request->validate([
+            'process_type' => ['required','string',Rule::in(['office','program'])]
         ]);
+
+        if ($listtype['process_type'] == 'program') {
+            $validatedData = $request->validate([
+                'program_id' => 'required|exists:programs,id',
+                'process_name' => ['required',new NoSameProcessInProgram($request->program_id)],
+                'process_description' => 'required',
+            ]);
+        }
+        else{
+            $validatedData = $request->validate([
+                'office_id' => 'required|exists:offices,id',
+                'process_name' => ['required',new NoSameProcessInOffice($request->office_id)],
+                'process_description' => 'required',
+            ]);
+        }
 
         Process::create($validatedData);
 

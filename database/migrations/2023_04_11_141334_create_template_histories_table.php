@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('processes', function (Blueprint $table) {
+        Schema::create('template_histories', function (Blueprint $table) {
             $table->id();
-            $table->string('process_name');
-            $table->string('process_description');
-            $table->foreignId('program_id')->constrained();
-            $table->softDeletesTz();
+            $table->foreignId('template_id')->constrained();
+            $table->string('location');
+            $table->string('filename');
+            $table->string('original_name');
+            $table->string('extension');
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('processes');
+        Schema::dropIfExists('template_histories');
     }
 };

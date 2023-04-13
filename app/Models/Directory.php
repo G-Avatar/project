@@ -12,6 +12,7 @@ class Directory extends Model
     public $fillable = [
         'location',
         'filename',
-        'original_name'
+        'original_name',
+        'extension'
     ];
 }

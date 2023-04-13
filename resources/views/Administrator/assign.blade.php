@@ -314,7 +314,7 @@
                     $('#po_institute').append(institute_list);
                 }
                 else{
-                    $('#form-po').attr('action', po_office_link);
+                    $('#form-po').attr('action', po_process_link);
                     $('#po_institute').empty();
                     $('#po_program').empty();
                     $('#po_office').empty();
@@ -343,18 +343,48 @@
                         office_list.append(po_office_option);
                     }
                     $('#po_office').append(office_list);
-                    var container = $('<div>', {
-                        'class':'text-center mt-2',
-                    });
-                    var po_submit = $('<button>', {
-                        'type':'submit',
-                        'class':'btn btn-success',
-                        'text':'Save Changes'
-                    });
-                    container.append(po_submit)
-                    $('#po_office').append(container);
+                    
 
                 }
+            });
+            $(document).on('change','#po_office_list', function () {
+                let sel = $(this).val();
+                sel = data[0].offices.findIndex(item=>item.id === parseInt(sel));
+                console.log(sel);
+                var office_label = $('<span>', {
+                    'text':'Process'
+                });
+                $('#po_office').append(office_label);
+                var process_list = $('<select>', {
+                    'class':'form-control',
+                    'id':'po_office_process_list',
+                    'required':true,
+                    'name':'process_id'
+                });
+                var po_office_process_option = $('<option>', {
+                    'value':'',
+                    'text':'Select a Process',
+                    'disabled':true,
+                    'selected':true
+                });
+                process_list.append(po_office_process_option);
+                for (const key in data[0].offices[sel].processes) {
+                    var po_process_option = $('<option>', {
+                        'value':data[0].offices[sel].processes[key].id,
+                        'text':data[0].offices[sel].processes[key].process_name,
+                    });
+                    process_list.append(po_process_option);
+                }
+                var container = $('<div>', {
+                    'class':'text-center mt-2',
+                });
+                var po_submit = $('<button>', {
+                    'type':'submit',
+                    'class':'btn btn-success',
+                    'text':'Save Changes'
+                });
+                container.append(po_submit)
+                $('#po_office').append(process_list,container);
             });
             var i;
             $(document).on('change','#po_institute_list', function () {

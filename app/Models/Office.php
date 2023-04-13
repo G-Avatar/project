@@ -21,4 +21,9 @@ class Office extends Model
     {
         return $this->belongsTo(Area::class);
     }
+
+    public function processes()
+    {
+        return $this->hasMany(Process::class);
+    }
 }

@@ -4,6 +4,10 @@
         @include('layout.admin')
     @elseif (auth()->user()->role->role_name == 'Document Control Custodian')
         @include('layout.dcc')
+    @elseif (auth()->user()->role->role_name == 'Process Owner')
+        @include('layout.po')
+    @elseif (auth()->user()->role->role_name == 'Staff')
+        @include('layout.staff')
     @endif
     <nav class="navbar navbar-light navbar-expand-md" style="background-color: #37a87f;">
         <div class="container-fluid"><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span

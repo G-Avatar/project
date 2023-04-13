@@ -7,6 +7,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@mdi/font/css/materialdesignicons.min.css';
 import 'sweetalert2/dist/sweetalert2.css';
+import './tagify';
 
 import axios from 'axios';
 import * as bootstrap from "bootstrap";

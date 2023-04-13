@@ -10,10 +10,16 @@ use App\Http\Controllers\Administrator\RoleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DCC\DCCDashboardController;
 use App\Http\Controllers\DCC\DCCEvidenceController;
+use App\Http\Controllers\DCC\DCCRemarkController;
 use App\Http\Controllers\DCC\TemplateController;
+use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\OfficeUserController;
+use App\Http\Controllers\PO\PODashboardController;
+use App\Http\Controllers\PO\POEvidenceController;
 use App\Http\Controllers\ProcessUserController;
 use App\Http\Controllers\ProgramUserController;
+use App\Http\Controllers\Staff\StaffDashboardController;
+use App\Http\Controllers\Staff\StaffTemplateController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -68,10 +74,62 @@ Route::middleware(['auth'])->group(function(){
         });
         Route::get('/dashboard',[DCCDashboardController::class,'dashboard'])->name('dcc-dashboard-page');
         Route::get('/template',[TemplateController::class,'index'])->name('dcc-template-page');
-        Route::get('/evidence',[DCCEvidenceController::class,'showEvidence'])->name('dcc-show-evidence');
+        Route::get('/evidence',[DCCEvidenceController::class,'showProgramEvidence'])->name('dcc-show-evidence');
+        Route::get('/evidence/office/{office}',[DCCEvidenceController::class,'showOfficeProcess'])->name('dcc-show-office-process');
+        Route::get('/evidence/office/{office}/{process}',[DCCEvidenceController::class,'evidenceProcess'])->name('dcc-show-evidence-directory-office');
+        Route::get('/evidence/office/{office}/{process}/{parent}',[DCCEvidenceController::class,'evidenceDirectories'])->name('dcc-show-evidence-directory-office-parent');
+        Route::get('/evidence/program/{program}',[DCCEvidenceController::class,'showProgramProcess'])->name('dcc-show-program-process');
+        Route::get('/evidence/program/{program}/{process}',[DCCEvidenceController::class,'evidenceProcess'])->name('dcc-show-evidence-directory-program');
+        Route::get('/evidence/program/{program}/{process}/{parent}',[DCCEvidenceController::class,'evidenceDirectories'])->name('dcc-show-evidence-directory-program-parent');
+        Route::post('/evidence-add-folder',[DCCEvidenceController::class,'addEvidenceFolder'])->name('dcc-add-folder-evidence');
+        Route::post('/evidence-rename-folder',[DCCEvidenceController::class,'renameEvidenceFolder'])->name('dcc-rename-folder-evidence');
+        Route::post('/evidence-remove-folder',[DCCEvidenceController::class,'removeEvidenceFolder'])->name('dcc-remove-folder-evidence');
     });
 
+    Route::prefix('po')->middleware('po')->group(function(){
+        Route::get('/',function(){
+            return redirect()->route('po-dashboard-page');
+        });
+        Route::get('/dashboard',[PODashboardController::class,'dashboard'])->name('po-dashboard-page');
+        Route::get('/evidence',[POEvidenceController::class,'index'])->name('po-evidence-page');
+        Route::prefix('office')->group(function(){
+            Route::get('/{office}',[POEvidenceController::class,'office_process'])->name('po-office-process');
+            Route::get('/{office}/{process}',[POEvidenceController::class,'root_office_folder'])->name('po-office-root-process');
+        });
+        Route::prefix('program')->group(function(){
+            Route::get('/{program}',[POEvidenceController::class,'program_process'])->name('po-program-process');
+            Route::get('/{program}/{process}',[POEvidenceController::class,'root_program_folder'])->name('po-program-root-process');
+            Route::get('/{program}/{process}/{parent}',[POEvidenceController::class,'parent_program_folder'])->name('po-program-parent-process');
+        });
+        Route::post('/upload-evidence',[POEvidenceController::class,'uploadEvidence'])->name('upload-evidence');
+        Route::post('/update-evidence',[POEvidenceController::class,'updateName'])->name('rename-evidence');
+        Route::post('/update-file-evidence',[POEvidenceController::class,'updateFile'])->name('update-file-evidence');
+        Route::post('/delete-file-evidence/',[POEvidenceController::class,'deleteFile'])->name('delete-file-evidence');
+    });
+
+    Route::middleware('staff')->prefix('staff')->group(function () {
+        // Sidebar
+        Route::get('/dashboard', [StaffDashboardController::class, 'dashboard'])->name('staff.dashboard');
+        Route::get('/template', [StaffTemplateController::class, 'index'])->name('staff.template.index');
+        
+        // Template Part
+        Route::get('/template/roles', [StaffTemplateController::class, 'allRoles'])->name('staff.template.roles');
+        Route::get('/template/roles/{role}', [StaffTemplateController::class, 'roleTemplate'])->name('staff.template.roles.root');
+
+        
+        Route::get('/template/program', [StaffTemplateController::class, 'showProgramTemplate'])->name('staff.template.program');
+        Route::get('/template/office/{office}', [StaffTemplateController::class, 'showOfficeProcess'])->name('staff.template.office.process');
+        Route::get('/template/program/{program}', [StaffTemplateController::class, 'showProgramProcess'])->name('staff.template.program.process');
+        Route::get('/template/process/{program}/{process}', [StaffTemplateController::class, 'templateProcess'])->name('staff.template.process');
+        Route::get('/template/directories/{program}/{process}/{parent?}', [StaffTemplateController::class, 'templateDirectories'])->name('staff.template.directories');
+        Route::post('/template/folder/add', [StaffTemplateController::class, 'addTemplateFolder'])->name('staff.template.folder.add');
+        Route::post('/template/folder/rename/', [StaffTemplateController::class, 'renameTemplateFolder'])->name('staff.template.folder.rename');
+        Route::post('/template/folder/remove', [StaffTemplateController::class, 'removeTemplateFolder'])->name('staff.template.folder.remove');
+    });
+
+    Route::post('add-remark',[DCCRemarkController::class,'addRemark'])->name('add-remark');
     Route::get('logout',[AuthController::class,'lg'])->name('logout');
+    Route::get('download-evidence/{id}',[DownloadController::class,'evidenceDownload'])->name('download-evidence');
     
 });
 

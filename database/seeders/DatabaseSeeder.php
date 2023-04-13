@@ -16,7 +16,10 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             AreaSeeder::class,
-            // TemplateSeeder::class
+            InstituteSeeder::class,
+            ProgramSeeder::class,
+            ProgramUserSeeder::class,
+            ProcessSeeder::class,
         ]);
     }
 }

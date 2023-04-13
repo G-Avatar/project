@@ -233,33 +233,15 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="{{ route('add-process') }}">
-                        @csrf
+                    <form method="POST"id="addProcess" action="{{ route('add-process') }}">
                         <div class="mb-3">
-                            <label for="institute" class="form-label">Institute</label>
-                            <select name="institute_id" id="institute_id" class="form-control" required>
-                                <option value="" disabled selected>Select an Institute</option>
-                                @foreach ($data[1]['institutes'] as $item)
-                                    <option value="{{ $item['id'] }}">{{ $item['institute_name'] }} - {{ $item['institute_description'] }}</option>
-                                @endforeach
+                            @csrf
+                            <label for="process_type" class="form-label">Process Belong</label>
+                            <select name="process_type" id="process_type" class="form-control" required>
+                                <option value="" disabled selected>Select an option</option>
+                                <option value="office">Office</option>
+                                <option value="program">Program</option>
                             </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="Program" class="form-label">Program</label>
-                            <select name="program_id" id="programs_id" class="form-control">
-                                <option value="" disabled selected>Select a Program</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="institute" class="form-label">Process</label>
-                            <input type="text" class="form-control" name="process_name" placeholder="Enter process name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="institute" class="form-label">Process Full name</label>
-                            <input type="text" class="form-control" name="process_description" placeholder="Enter full name" required>
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-success">Save changes</button>
                         </div>
                     </form>
                 </div>
@@ -512,6 +494,263 @@
                     newCol.append(newButton);
                     newCol.append(ul);
                     buttonContainer.append(newCol);
+                }
+            });
+
+            $(document).on('click','.office', function () {
+                $('.office').removeClass('active');
+                $('.process-buttons').empty();
+                $(this).addClass('active');
+                let buttonContainer = $('.process-buttons');
+                const institute = data[0];
+                var program = institute.offices.find(s => s.id === parseInt($(this).val()));
+                $('.process-buttons').html('<h3>Process</h3>');
+                for (const key in program.processes) {
+                    var newButton = $('<button>', {
+                        'class': 'btn btn-design process w-100 editable',
+                        'text': program.processes[key].process_name,
+                        'value': program.processes[key].id,
+                    });
+                    var ul = $('<ul>', {
+                        'class': 'dropdown-menu edit'
+                    });
+                    var li = $('<li>');
+                    var menu = $('<button>', {
+                        'class': 'dropdown-item editProcess',
+                        'text':'Edit',
+                        'type':'button',
+                        'data-bs-toggle':'modal',
+                        'data-bs-target':'#editProcess',
+                        'value': program.processes[key].id,
+                    });                        
+                    var newCol = $('<div>', {
+                        'class': 'col-4'
+                    });
+                    li.append(menu);
+                    ul.append(li);
+                    newCol.append(newButton);
+                    newCol.append(ul);
+                    buttonContainer.append(newCol);
+                }
+            });
+
+            $(document).on('change','#process_type', function () {
+                let process_type =  $('#process_type').val();
+                $('#addProcess').children().not(':first-child').remove();
+                
+                if (process_type === 'program') {
+                    // Add institute
+                    var newDiv = $('<div>',{
+                        class:'mb-3'
+                    });
+                    var newLabel = $('<label>',{
+                        for:'institute',
+                        class:'form-label',
+                        text:'Institute'
+                    });
+                    newDiv.append(newLabel);
+                    var newSelect = $('<select>',{
+                        class:'form-control',
+                        name:'institute_id',
+                        id:'institute_id',
+                        required:true
+                    });
+                    var defOption = $('<option>',{
+                        value:"",
+                        text:"Select an Institute",
+                        disabled:true,
+                        selected:true
+                    });
+                    newSelect.append(defOption);
+                    for (const key in data[1]['institutes']) {
+                        var newOption = $('<option>',{
+                            value:data[1]['institutes'][key]['id'],
+                            text:data[1]['institutes'][key]['institute_name']+' - '+data[1]['institutes'][key]['institute_description'],
+                        });
+                        newSelect.append(newOption);
+                    }
+                    newDiv.append(newSelect);
+                    $('#addProcess').append(newDiv);
+                    // End adding institute
+
+                    // Add Program
+                    var newProgramDiv = $('<div>',{
+                        class:'mb-3'
+                    });
+                    var newProgramLabel = $('<label>',{
+                        for:'Program',
+                        class:'form-label',
+                        text:'Program'
+                    });
+                    newProgramDiv.append(newProgramLabel);
+                    var newProgramSelect = $('<select>',{
+                        class:'form-control',
+                        name:'program_id',
+                        id:'programs_id',
+                        required:true
+                    });
+                    var defProgramOption = $('<option>',{
+                        value:"",
+                        text:"Select a Program",
+                        disabled:true,
+                        selected:true
+                    });
+                    newProgramSelect.append(defProgramOption);
+                    newProgramDiv.append(newProgramSelect);
+                    $('#addProcess').append(newProgramDiv);
+                    // End Add Program
+
+                    // Test
+                    var processDiv1 = $('<div>', {
+                        class: 'mb-3'
+                    });
+
+                    var processLabel1 = $('<label>', {
+                        for: 'institute',
+                        class: 'form-label',
+                        text: 'Process'
+                    });
+
+                    var processInput1 = $('<input>', {
+                        type: 'text',
+                        class: 'form-control',
+                        name: 'process_name',
+                        placeholder: 'Enter process name',
+                        required: true
+                    });
+
+                    processDiv1.append(processLabel1, processInput1);
+
+                    
+
+                    var processDiv2 = $('<div>', {
+                        class: 'mb-3'
+                    });
+
+                    var processLabel2 = $('<label>', {
+                        for: 'institute',
+                        class: 'form-label',
+                        text: 'Process Full name'
+                    });
+
+                    var processInput2 = $('<input>', {
+                        type: 'text',
+                        class: 'form-control',
+                        name: 'process_description',
+                        placeholder: 'Enter full name',
+                        required: true
+                    });
+
+                    processDiv2.append(processLabel2, processInput2);
+
+                    var submitButton = $('<button>', {
+                        type: 'submit',
+                        class: 'btn btn-success',
+                        text: 'Save changes'
+                    });
+
+                    var centerDiv = $('<div>', {
+                        class: 'text-center'
+                    });
+
+                    centerDiv.append(submitButton);
+
+                    $('#addProcess').append(processDiv1, processDiv2, centerDiv);
+
+                }
+                else{
+                    var newDiv = $('<div>', {
+                        class: 'mb-3'
+                    });
+
+                    var newLabel = $('<label>', {
+                        for: 'office',
+                        class: 'form-label',
+                        text: 'Office'
+                    });
+
+                    newDiv.append(newLabel);
+
+                    var newSelect = $('<select>', {
+                        class: 'form-control',
+                        name: 'office_id',
+                        id: 'office_id',
+                        required: true
+                    });
+
+                    var defOption = $('<option>', {
+                        value: "",
+                        text: "Select an Office",
+                        disabled: true,
+                        selected: true
+                    });
+
+                    newSelect.append(defOption);
+
+                    for (const key in data[0]['offices']) {
+                        var newOption = $('<option>', {
+                            value: data[0]['offices'][key]['id'],
+                            text: data[0]['offices'][key]['office_name'] + ' - ' + data[0]['offices'][key]['office_description'],
+                        });
+                        newSelect.append(newOption);
+                    }
+
+                    newDiv.append(newSelect);
+
+                    var processDiv1 = $('<div>', {
+                        class: 'mb-3'
+                    });
+
+                    var processLabel1 = $('<label>', {
+                        for: 'institute',
+                        class: 'form-label',
+                        text: 'Process'
+                    });
+
+                    var processInput1 = $('<input>', {
+                        type: 'text',
+                        class: 'form-control',
+                        name: 'process_name',
+                        placeholder: 'Enter process name',
+                        required: true
+                    });
+
+                    processDiv1.append(processLabel1, processInput1);
+
+                    var processDiv2 = $('<div>', {
+                        class: 'mb-3'
+                    });
+
+                    var processLabel2 = $('<label>', {
+                        for: 'institute',
+                        class: 'form-label',
+                        text: 'Process Full name'
+                    });
+
+                    var processInput2 = $('<input>', {
+                        type: 'text',
+                        class: 'form-control',
+                        name: 'process_description',
+                        placeholder: 'Enter full name',
+                        required: true
+                    });
+
+                    processDiv2.append(processLabel2, processInput2);
+
+                    var submitButton = $('<button>', {
+                        type: 'submit',
+                        class: 'btn btn-success',
+                        text: 'Save changes'
+                    });
+
+                    var centerDiv = $('<div>', {
+                        class: 'text-center'
+                    });
+
+                    centerDiv.append(submitButton);
+
+                    $('#addProcess').append(newDiv,processDiv1,processDiv2,centerDiv);
+
                 }
             });
             $(document).on('change','#institute_id', function () {

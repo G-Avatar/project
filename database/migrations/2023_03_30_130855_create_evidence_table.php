@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('evidence', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('process_id')->constrained();
             $table->foreignId('directory_id')->nullable()->constrained();
             $table->foreignId('user_id')->constrained();
             $table->string('folder_name')->nullable();

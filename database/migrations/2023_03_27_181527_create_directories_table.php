@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('location');
             $table->string('filename');
             $table->string('original_name');
+            $table->string('extension');
             $table->softDeletesTz();
             $table->timestamps();
         });

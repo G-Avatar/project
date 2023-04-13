@@ -14,10 +14,16 @@ class Process extends Model
         'process_name',
         'process_description',
         'program_id',
+        'office_id'
     ];
 
     public function program()
     {
         return $this->belongsTo(Program::class);
+    }
+
+    public function office()
+    {
+        return $this->belongsTo(Office::class);
     }
 }

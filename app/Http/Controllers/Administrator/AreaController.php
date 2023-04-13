@@ -12,7 +12,7 @@ class AreaController extends Controller
     public function adminAreaPage()
     {
         return view('Administrator.area',[
-            'data'=>Area::with(['institutes.programs.processes', 'offices'])
+            'data'=>Area::with(['institutes.programs.processes', 'offices.processes'])
             ->get()
         ]);
     }

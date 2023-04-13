@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('evidence_permissions', function (Blueprint $table) {
+        Schema::create('template_remarks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('evidence_id')->constrained();
-            $table->foreignId('program_id')->constrained();
+            $table->foreignId('template_id')->constrained('templates');
+            $table->enum('status', ['approved', 'rejected']);
+            $table->foreignId('user_id')->constrained();
+            $table->string('comment');
+            $table->timestamps();
         });
     }
 
@@ -23,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('evidence_permissions');
+        Schema::dropIfExists('template_remarks');
     }
 };

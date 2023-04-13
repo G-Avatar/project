@@ -1,15 +1,16 @@
 <style>
+
     @media (min-width: 992px) {
         body {
             padding-left: 14rem;
         }
     }
 
-    .drop-menu .active {
+    .drop-menu .active{
         background-color: #ffffff !important;
     }
 
-    .drop-menu .active span {
+    .drop-menu .active span{
         color: #005b40 !important;
     }
 
@@ -228,7 +229,12 @@
     </li>
     <li class="nav-item"><a class="nav-link text-start py-1 px-0 {{ request()->routeIs('dcc-dashboard-page') ? 'active' : '' }}" href="{{ route('dcc-dashboard-page') }}"><i class="fas fa-tachometer-alt mx-3"></i><span class="text-nowrap mx-2">Dashboard</span></a></li>
     <li class="nav-item"><a class="nav-link text-start py-1 px-0 {{ request()->routeIs('dcc-template-page') ? 'active' : '' }}" href="{{ route('dcc-template-page') }}"><i class="fas fa-newspaper mx-3 mx-3"></i><span class="text-nowrap mx-2">Templates</span></a></li>
-    <li class="nav-item"><a class="nav-link text-start py-1 px-0 {{ request()->routeIs('dcc-template-page') ? 'active' : '' }}" href="{{ route('dcc-show-evidence') }}"><i class="fas fa-file-alt mx-3 mx-3"></i><span class="text-nowrap mx-2">Evidences</span></a></li>
+    <li class="nav-item dropdown {{ request()->routeIs('dcc-show-evidence') || request()->routeIs('dcc-show-office-process') || request()->routeIs('dcc-show-program-process') ? 'show' : '' }}">
+        <a data-bs-auto-close="false" class="dropdown-toggle nav-link text-start py-1 px-0 position-relative {{ request()->routeIs('dcc-show-evidence') || request()->routeIs('dcc-show-office-process') || request()->routeIs('dcc-show-program-process') || request()->routeIs('dcc-show-evidence-directory-office') || request()->routeIs('dcc-show-evidence-directory-program') || request()->routeIs('dcc-show-evidence-directory-office-parent') || request()->routeIs('dcc-show-evidence-directory-program-parent') ? 'active' : '' }}" aria-expanded="true" data-bs-toggle="dropdown" href="#"><i class="fas fa-user-alt mx-3"></i><span class="text-nowrap mx-2">Evidence</span><i class="fas fa-caret-down float-none float-lg-end me-3"></i></a>
+            <div class="dropdown-menu drop-menu border-0 animated fadeIn {{ request()->routeIs('dcc-show-evidence') || request()->routeIs('dcc-show-office-process') || request()->routeIs('dcc-show-program-process') || request()->routeIs('dcc-show-evidence-directory-office') || request()->routeIs('dcc-show-evidence-directory-program') || request()->routeIs('dcc-show-evidence-directory-office-parent') || request()->routeIs('dcc-show-evidence-directory-program-parent') ? 'show' : '' }}" data-bs-popper="none">
+                <a class="dropdown-item {{ request()->routeIs('dcc-show-evidence') || request()->routeIs('dcc-show-office-process') || request()->routeIs('dcc-show-program-process') || request()->routeIs('dcc-show-evidence-directory-office') || request()->routeIs('dcc-show-evidence-directory-program') || request()->routeIs('dcc-show-evidence-directory-office-parent') || request()->routeIs('dcc-show-evidence-directory-program-parent') ? 'active' : '' }}" href="{{ route('dcc-show-evidence') }}"><span>Show</span></a>
+            </div>
+    </li>
     <li class="nav-item dropdown"><a data-bs-auto-close="false" class="dropdown-toggle nav-link text-start py-1 px-0 position-relative" aria-expanded="false" data-bs-toggle="dropdown" href="#"><i class="fas fa-book mx-3"></i><span class="text-nowrap" style="margin-left: 11px;">Manuals</span><i class="fas fa-caret-down float-none float-lg-end me-3"></i></a>
         <div class="dropdown-menu border-0 animated fadeIn"><a class="dropdown-item" href="#"><span>Pending</span></a></div>
     </li>

@@ -24,5 +24,16 @@ class UserSeeder extends Seeder
             'password'=>Hash::make('admin123'),
             'img'=>'hecker.png'
         ]);
+
+        User::create([
+            'firstname'=>fake()->firstNameMale(),
+            'middlename'=>fake()->lastName(),
+            'surname'=>fake()->lastName(),
+            'suffix'=>fake()->suffix(),
+            'role_id'=>10,
+            'username'=>'dcc',
+            'password'=>Hash::make('admin123'),
+            'img'=>'hecker.png'
+        ]);
     }
 }

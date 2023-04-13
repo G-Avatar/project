@@ -35,6 +35,12 @@ class AuthController extends Controller
             if ($role == 'Document Control Custodian') {# code...
                 return redirect()->route('dcc-dashboard-page');
             }
+            if ($role == 'Process Owner') {# code...
+                return redirect()->route('dcc-dashboard-page');
+            }
+            if ($role == 'Staff') {# code...
+                return redirect()->route('staff.dashboard');
+            }
         }
  
         return back()->withErrors([
